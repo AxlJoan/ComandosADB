@@ -3,11 +3,6 @@ from app import app  # Importa la instancia de Flask desde app/__init__.py
 from flask import request, jsonify, render_template
 import subprocess
 
-# Ruta principal para servir el HTML
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 # Ruta para manejar los comandos ADB
 @app.route('/comando', methods=['POST'])
 def send_command():
