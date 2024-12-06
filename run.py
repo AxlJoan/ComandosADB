@@ -1,15 +1,12 @@
 import os
-from flask import Flask, request, jsonify, render_template
+from app import app  # Importa la instancia de Flask desde app/__init__.py
+from flask import request, jsonify, render_template
 import subprocess
 
-app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'app', 'templates'))
-
-#from app import routes
 # Ruta principal para servir el HTML
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 # Ruta para manejar los comandos ADB
 @app.route('/send_command', methods=['POST'])
@@ -49,8 +46,5 @@ def send_command():
         return jsonify({"error": str(e)}), 500
 
 
-# Ejecutar el servidor Flask
-#from app import app
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))  # Usar el puerto de entorno si está disponible
