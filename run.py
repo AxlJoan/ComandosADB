@@ -9,7 +9,7 @@ def index():
     return render_template('index.html')
 
 # Ruta para manejar los comandos ADB
-@app.route('/send_command', methods=['POST'])
+@app.route('/comando', methods=['POST'])
 def send_command():
     try:
         # Leer datos enviados desde el cliente
