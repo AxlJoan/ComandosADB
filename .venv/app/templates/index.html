@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comandos ADB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="app">
+        <h1>Comandos ADB en Dispositivos Android</h1>
+        
+        <!-- Formulario para ingresar enlace y configuraciones -->
+        <form id="comandoForm">
+            <label for="link">Enlace:</label>
+            <input type="text" id="link" name="link" required>
+
+            <label for="comando">Comando:</label>
+            <select id="comando" name="comando" required>
+                <option value="enlace">Abrir Enlace</option>
+                <option value="youtube">Abrir Video YouTube</option>
+            </select>
+
+            <label for="option">Opción:</label>
+            <select id="option" name="option">
+                <option value="default">Predeterminado</option>
+                <option value="chrome">Chrome</option>
+            </select>
+
+            <label for="temporizador">Temporizador (segundos):</label>
+            <input type="number" id="temporizador" name="temporizador" value="30">
+
+            <button type="submit">Ejecutar Comando</button>
+        </form>
+
+        <!-- Área para mostrar el resultado -->
+        <div id="resultado"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

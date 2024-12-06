@@ -1,0 +1,84 @@
+/* General Reset */
+body, h1, p, form, input, select, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Cuerpo principal */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Gris claro */
+    color: #333; /* Gris oscuro */
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor principal */
+#app {
+    background: #fff; /* Blanco */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 2px solid #800020; /* Borgoña */
+}
+
+/* Encabezado */
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #800020; /* Borgoña */
+}
+
+/* Formulario */
+form label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
+}
+
+form input, form select, form button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Botón de envío */
+form button {
+    background-color: #800020; /* Borgoña */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #a8334c; /* Borgoña claro */
+}
+
+/* Área de resultado */
+#resultado {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    display: none; /* Oculto inicialmente */
+}
+
+/* Estilos adicionales */
+input:focus, select:focus, button:focus {
+    outline: none;
+    border-color: #800020; /* Borgoña */
+    box-shadow: 0 0 5px rgba(128, 0, 32, 0.5);
+}
