@@ -4,7 +4,7 @@ import subprocess
 
 app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'app', 'templates'))
 
-from app import routes
+#from app import routes
 # Ruta principal para servir el HTML
 @app.route('/')
 def index():
