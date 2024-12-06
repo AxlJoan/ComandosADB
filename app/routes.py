@@ -1,8 +1,8 @@
+from app import app  # Importa la app desde __init__.py
 from flask import render_template, request, jsonify
 import subprocess
 import threading
 import time
-#from app import app  # Importamos la app para definir las rutas
 
 # Ruta para mostrar el formulario o página inicial
 @app.route("/", methods=["GET"])
