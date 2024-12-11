@@ -1,45 +1,49 @@
 import os
-from app import app  # Importa la instancia de Flask desde app/__init__.py
-from flask import request, jsonify, render_template
-import subprocess
+from flask import Flask, request, jsonify, render_template
+import requests  # Para enviar solicitudes HTTP a los clientes
 
-# Ruta para manejar los comandos ADB
-@app.route('/comando', methods=['POST'])
+app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'app', 'templates'))
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/send_command', methods=['POST'])
 def send_command():
     try:
-        # Leer datos enviados desde el cliente
+        # Leer datos enviados desde el cliente web
         data = request.json
+        client_address = data.get("client_address")  # Dirección IP del cliente
         link = data.get("link")
         option = data.get("option", "default")
         time_limit = data.get("time_limit", 30)
 
+        if not client_address:
+            return jsonify({"error": "No se proporcionó la dirección del cliente"}), 400
+
         if not link:
             return jsonify({"error": "No se proporcionó un enlace"}), 400
 
-        # Obtener la lista de dispositivos conectados con ADB
-        devices_output = subprocess.check_output(["adb", "devices"]).decode("utf-8")
-        devices = [line.split("\t")[0] for line in devices_output.splitlines() if "device" in line]
+        # Crear el payload para enviar al cliente
+        payload = {
+            "link": link,
+            "option": option,
+            "time_limit": time_limit
+        }
 
-        if not devices:
-            return jsonify({"error": "No hay dispositivos conectados"}), 400
+        # Enviar la solicitud al cliente
+        client_url = f"http://{client_address}:8001/execute_adb_command"  # Cliente escucha en el puerto 8001
+        response = requests.post(client_url, json=payload)
 
-        # Ejecutar comandos en cada dispositivo
-        for device in devices:
-            if option == "default":
-                subprocess.run(["adb", "-s", device, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", link])
-            elif option == "chrome":
-                subprocess.run([
-                    "adb", "-s", device, "shell", "am", "start", "-a", "android.intent.action.VIEW",
-                    "-d", link, "-n", "com.android.chrome/com.google.android.apps.chrome.Main"
-                ])
+        if response.status_code == 200:
+            return jsonify({"message": f"Comando enviado al cliente {client_address}.", "response": response.json()}), 200
+        else:
+            return jsonify({"error": f"Error desde el cliente: {response.text}"}), response.status_code
 
-        return jsonify({"message": f"Enlace enviado a {len(devices)} dispositivos.", "devices": devices}), 200
-
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": f"Error ejecutando ADB: {str(e)}"}), 500
+    except requests.RequestException as e:
+        return jsonify({"error": f"Error comunicándose con el cliente: {str(e)}"}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))  # Usar el puerto de entorno si está disponible
