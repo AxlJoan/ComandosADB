@@ -4,10 +4,6 @@ import requests  # Para enviar solicitudes HTTP a los clientes
 
 app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'app', 'templates'))
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 @app.route('/send_command', methods=['POST'])
 def send_command():
     try:
